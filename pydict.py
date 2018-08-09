@@ -22,19 +22,16 @@ def find_meaning(wd):
     page = requests.get(link,proxies=proxy_dict)
     soup = BeautifulSoup(page.content,'html.parser')
     content = soup.select('section')
-    title = content[0].h1.text
-    spelt_as = content[0].div.span.text
-    meaning_title1 = content[0].header.span.text
-    meaning1 = content[0].ol.li.span.text
-    msg = "Spelt as:"+spelt_as+"\n"+"-"+meaning_title1+"\n"+meaning1
+    meaning_title = content[0].header.span.text
+    meaning = content[0].ol.li.span.text
+    msg = "-"+meaning_title+"\n"+meaning
     return msg
 
 while True:
     r = Tk()
     try:
         word = r.selection_get(selection="CLIPBOARD")
-        if((prevword != word)and(len(word)<50)):
-            print(word)
+        if((prevword != word)and(len(word)<25)):
             message = find_meaning(word)
             fn.balloon_tip(word,message)
             prevword = word
